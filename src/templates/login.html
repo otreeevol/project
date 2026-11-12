@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 学生信息管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body">
+<div class="login-card">
+    <h1>🎓 学生信息管理系统</h1>
+    <p class="subtitle">请登录以继续</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+    <form method="post">
+        <label>用户名</label>
+        <input type="text" name="username" placeholder="admin" required>
+        <label>密码</label>
+        <input type="password" name="password" placeholder="admin123" required>
+        <button type="submit" class="btn btn-primary btn-block">登录</button>
+    </form>
+    <p class="hint">默认账号：admin / admin123</p>
+</div>
+</body>
+</html>

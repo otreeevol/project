@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}首页 - 学生信息管理系统{% endblock %}
+{% block content %}
+<h2>系统概览</h2>
+<div class="cards">
+    <div class="card">
+        <div class="card-num">{{ counts.students }}</div>
+        <div class="card-label">学生总数</div>
+    </div>
+    <div class="card">
+        <div class="card-num">{{ counts.classes }}</div>
+        <div class="card-label">班级总数</div>
+    </div>
+    <div class="card">
+        <div class="card-num">{{ counts.courses }}</div>
+        <div class="card-label">课程总数</div>
+    </div>
+    <div class="card">
+        <div class="card-num">{{ counts.grades }}</div>
+        <div class="card-label">成绩记录</div>
+    </div>
+</div>
+<p>欢迎使用学生信息管理系统。可通过顶部导航进入各功能模块，完成学生、班级、课程与成绩的信息管理。</p>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ '编辑班级' if cls else '新增班级' }} - 学生信息管理系统{% endblock %}
+{% block content %}
+<h2>{{ '编辑班级' if cls else '新增班级' }}</h2>
+<form method="post" class="form">
+    <div class="form-row">
+        <label>班级名称 *</label>
+        <input type="text" name="name" value="{{ cls['name'] if cls else '' }}" required>
+    </div>
+    <div class="form-row">
+        <label>专业</label>
+        <input type="text" name="major" value="{{ cls['major'] if cls else '' }}">
+    </div>
+    <div class="form-row">
+        <label>年级</label>
+        <input type="text" name="grade" value="{{ cls['grade'] if cls else '' }}">
+    </div>
+    <div class="form-row">
+        <label>班主任</label>
+        <input type="text" name="head_teacher" value="{{ cls['head_teacher'] if cls else '' }}">
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">保存</button>
+        <a href="{{ url_for('class.index') }}" class="btn">返回</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,18 +1,10 @@
 @startuml
-' 小米便签 —— 状态图：便签对象状态转移
-state "新建" as new
-state "编辑中" as editing
-state "已保存" as saved
-state "回收站" as trash
-state "丢弃" as discarded
+' 学生信息管理系统 —— 状态图：学生对象状态转移
+state "已录入" as created
+state "已修改" as modified
 
-[*] --> new : 用户点击新建
-new --> editing : 输入内容
-editing --> saved : 点击保存
-editing --> discarded : 取消编辑
-saved --> editing : 再次编辑
-saved --> trash : 删除
-trash --> saved : 恢复
-trash --> [*] : 彻底删除
-discarded --> [*]
+[*] --> created : 新增学生
+created --> modified : 编辑信息
+modified --> created : 保存
+created --> [*] : 删除学生
 @enduml

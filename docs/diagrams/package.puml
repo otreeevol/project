@@ -1,31 +1,25 @@
 @startuml
-' 小米便签 —— 包图
+' 学生信息管理系统 —— 包图
 skinparam packageStyle rectangle
 
-package "net.micode.notes" {
-  package "data\n数据层" as data {
+package "src" {
+  package "controllers\n表示层控制器" as controllers {
   }
-  package "model\n模型层" as model {
+  package "services\n业务逻辑层" as services {
   }
-  package "ui\n表示层" as ui {
+  package "models\n数据访问层" as models {
   }
-  package "tool\n工具层" as tool {
+  package "templates\n视图模板" as templates {
   }
-  package "gtask\n云同步" as gtask {
+  package "static\n静态资源" as static {
   }
-  package "widget\n桌面小部件" as widget {
+  package "config\n配置" as config {
   }
 }
 
-ui ..> model
-ui ..> tool
-ui ..> gtask
-ui ..> data
-
-model ..> data
-gtask ..> data
-gtask ..> tool
-tool ..> data
-widget ..> model
-widget ..> data
+controllers ..> services
+controllers ..> templates
+controllers ..> static
+services ..> models
+models ..> config
 @enduml

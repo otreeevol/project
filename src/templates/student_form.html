@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ '编辑学生' if student else '新增学生' }} - 学生信息管理系统{% endblock %}
+{% block content %}
+<h2>{{ '编辑学生' if student else '新增学生' }}</h2>
+<form method="post" class="form">
+    <div class="form-row">
+        <label>学号 *</label>
+        <input type="text" name="student_no" value="{{ student['student_no'] if student else '' }}" required>
+    </div>
+    <div class="form-row">
+        <label>姓名 *</label>
+        <input type="text" name="name" value="{{ student['name'] if student else '' }}" required>
+    </div>
+    <div class="form-row">
+        <label>性别</label>
+        <select name="gender">
+            <option value="">请选择</option>
+            <option value="男" {{ 'selected' if student and student['gender'] == '男' }}>男</option>
+            <option value="女" {{ 'selected' if student and student['gender'] == '女' }}>女</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label>出生日期</label>
+        <input type="date" name="birth_date" value="{{ student['birth_date'] if student else '' }}">
+    </div>
+    <div class="form-row">
+        <label>所属班级</label>
+        <select name="class_id">
+            <option value="">未分班</option>
+            {% for c in classes %}
+            <option value="{{ c['id'] }}" {{ 'selected' if student and student['class_id'] == c['id'] }}>{{ c['name'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-row">
+        <label>联系电话</label>
+        <input type="text" name="phone" value="{{ student['phone'] if student else '' }}">
+    </div>
+    <div class="form-row">
+        <label>邮箱</label>
+        <input type="text" name="email" value="{{ student['email'] if student else '' }}">
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">保存</button>
+        <a href="{{ url_for('student.index') }}" class="btn">返回</a>
+    </div>
+</form>
+{% endblock %}

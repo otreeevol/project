@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}成绩管理 - 学生信息管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>成绩管理</h2>
+    <div class="actions">
+        <form method="get" class="inline-form">
+            <select name="student_id">
+                <option value="">全部学生</option>
+                {% for s in students %}
+                <option value="{{ s['id'] }}" {{ 'selected' if student_id == s['id'] }}>{{ s['student_no'] }} {{ s['name'] }}</option>
+                {% endfor %}
+            </select>
+            <select name="course_id">
+                <option value="">全部课程</option>
+                {% for c in courses %}
+                <option value="{{ c['id'] }}" {{ 'selected' if course_id == c['id'] }}>{{ c['name'] }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn">筛选</button>
+        </form>
+        <a href="{{ url_for('grade.add') }}" class="btn btn-primary">＋ 录入成绩</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>学号</th><th>姓名</th><th>课程</th><th>成绩</th><th>学期</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+    {% for g in grades %}
+        <tr>
+            <td>{{ g['student_no'] }}</td>
+            <td>{{ g['student_name'] }}</td>
+            <td>{{ g['course_name'] }}</td>
+            <td class="{{ 'score-fail' if g['score'] is not none and g['score'] < 60 }}">{{ g['score'] }}</td>
+            <td>{{ g['semester'] or '-' }}</td>
+            <td class="ops">
+                <a href="{{ url_for('grade.edit', grade_id=g['id']) }}" class="btn btn-sm">编辑</a>
+                <form method="post" action="{{ url_for('grade.delete', grade_id=g['id']) }}" class="inline-form"
+                      onsubmit="return confirm('确定删除该成绩？');">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="6" class="empty">暂无成绩数据</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

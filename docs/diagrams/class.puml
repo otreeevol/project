@@ -1,100 +1,77 @@
 @startuml
-' 小米便签 —— 详细设计类图
+' 学生信息管理系统 —— 详细设计类图
 hide empty members
 
-class Notes <<契约类>> {
-  +AUTHORITY : String
-  +CONTENT_NOTE_URI : Uri
-  +CONTENT_DATA_URI : Uri
-  +TYPE_NOTE : int
-  +TYPE_FOLDER : int
-  +TYPE_SYSTEM : int
+class StudentController {
+  +index()
+  +add()
+  +edit(student_id)
+  +delete(student_id)
 }
 
-class NotesDatabaseHelper {
-  -DB_NAME : String = "note.db"
-  +onCreate(db)
-  +onUpgrade(db, old, new)
+class StudentService {
+  +list_students(conn, keyword)
+  +get_student(conn, id)
+  +add_student(conn, data)
+  +update_student(conn, id, data)
+  +delete_student(conn, id)
+  -_validate(data)
 }
 
-class NotesProvider {
-  +query(uri, ...) : Cursor
-  +insert(uri, values) : Uri
-  +update(uri, values, ...) : int
-  +delete(uri, ...) : int
-  +getType(uri) : String
+class StudentDao {
+  +list_all(conn, keyword)
+  +get(conn, id)
+  +get_by_no(conn, no)
+  +create(conn, data)
+  +update(conn, id, data)
+  +delete(conn, id)
 }
 
-class Contact {
-  +CONTENT_URI : String
+class GradeController {
+  +index()
+  +add()
+  +edit(grade_id)
+  +delete(grade_id)
+  +statistics()
 }
 
-class Note {
-  -mNoteId : long
-  -mSnippet : String
-  -mType : int
-  +getId() : long
-  +getSnippet() : String
-  +setSnippet(s)
-  +getType() : int
+class GradeService {
+  +add_grade(conn, data)
+  +update_grade(conn, id, data)
+  +statistics(conn, course_id)
+  -_validate(data)
 }
 
-class WorkingNote {
-  -mNote : Note
-  -mNoteId : long
-  -mContent : String
-  +setWorkingText(text)
-  +saveNote() : boolean
-  +setAlertDate(date, set)
-  +setBgColorId(id)
+class GradeDao {
+  +list_all(conn, ...)
+  +create(conn, ...)
+  +update(conn, ...)
+  +delete(conn, ...)
+  +statistics(conn, course_id)
 }
 
-class NotesListActivity {
-  +onCreate(bundle)
-  +onNewIntent(intent)
-  +onListItemClick(...)
+class AuthService {
+  +authenticate(conn, username, password)
+  +create_user(conn, username, password, role)
 }
 
-class NoteEditActivity {
-  +onCreate(bundle)
-  +onSave()
-  +setWidgetValue(...)
+class UserDao {
+  +get_by_username(conn, username)
+  +create(conn, username, hash, role)
 }
 
-class NotesListAdapter {
-  +bindView(...)
-  +newView(...)
+class db {
+  +connect(db_path)
+  +get_db()
+  +close_db()
 }
 
-class GTaskManager {
-  +sync(...)
-}
-
-class GTaskClient {
-  +login()
-  +createTask(...)
-  +upload(...)
-}
-
-class SQLiteOpenHelper
-class ContentProvider
-class Activity
-class CursorAdapter
-
-SQLiteOpenHelper <|-- NotesDatabaseHelper
-ContentProvider <|-- NotesProvider
-Activity <|-- NotesListActivity
-Activity <|-- NoteEditActivity
-CursorAdapter <|-- NotesListAdapter
-
-NotesProvider --> NotesDatabaseHelper : 使用
-NotesProvider --> Notes : 引用常量
-WorkingNote *-- Note : 组合
-WorkingNote --> NotesProvider : 保存
-NoteEditActivity --> WorkingNote : 使用
-NotesListActivity --> NotesProvider : 查询
-NotesListAdapter --> Note : 展示
-GTaskManager --> GTaskClient : 调用
-GTaskManager --> NotesProvider : 读写
-NoteEditActivity ..> Notes : 依赖
+StudentController --> StudentService
+StudentService --> StudentDao
+GradeController --> GradeService
+GradeService --> GradeDao
+AuthService --> UserDao
+StudentDao ..> db
+GradeDao ..> db
+UserDao ..> db
 @enduml

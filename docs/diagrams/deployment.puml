@@ -1,23 +1,18 @@
 @startuml
-' 小米便签 —— 部署图
-node "Android 设备" {
-  node "应用进程 net.micode.notes" {
-    artifact "小米便签 APK" as APK
-    component "NotesListActivity" as UI
-    component "NotesProvider" as CP
-    component "NotesDatabaseHelper" as DBH
+' 学生信息管理系统 —— 部署图
+node "服务器" {
+  node "Python 运行时" {
+    component "Flask 应用\napp.py" as App
+    artifact "学生信息管理系统" as Art
   }
-  database "note.db\n(SQLite)" as DB
-  component "AlarmManager\n闹钟服务" as Alarm
-  component "AppWidget\n桌面小部件" as Widget
+  database "sms.db\n(SQLite)" as DB
+  App --> DB
+  Art --> App
 }
 
-cloud "Google Tasks 服务器" as GT
+node "客户端" {
+  component "Web 浏览器" as Browser
+}
 
-UI --> CP
-CP --> DBH
-DBH --> DB
-APK --> Alarm
-APK --> Widget
-CP ..> GT : HTTPS 同步
+Browser ..> App : HTTP
 @enduml

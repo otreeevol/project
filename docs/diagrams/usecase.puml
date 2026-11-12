@@ -1,22 +1,17 @@
 @startuml
-' 小米便签信息管理系统 —— 用例图
+' 学生信息管理系统 —— 用例图
 left to right direction
 skinparam packageStyle rectangle
 
-actor "用户" as User
-actor "Android系统" as System <<系统>>
+actor "管理员/教师" as User
 
-rectangle "小米便签信息管理系统" {
-  usecase "新建便签" as UC1
-  usecase "编辑便签" as UC2
-  usecase "删除便签" as UC3
-  usecase "浏览便签" as UC4
-  usecase "搜索便签" as UC5
-  usecase "管理文件夹" as UC6
-  usecase "设置闹钟提醒" as UC7
-  usecase "使用桌面小部件" as UC8
-  usecase "记录通话" as UC9
-  usecase "云同步" as UC10
+rectangle "学生信息管理系统" {
+  usecase "登录系统" as UC1
+  usecase "管理学生信息" as UC2
+  usecase "管理班级" as UC3
+  usecase "管理课程" as UC4
+  usecase "管理成绩" as UC5
+  usecase "成绩统计" as UC6
 }
 
 User --> UC1
@@ -25,13 +20,10 @@ User --> UC3
 User --> UC4
 User --> UC5
 User --> UC6
-User --> UC7
-User --> UC8
-User --> UC10
 
-System --> UC9
-
-UC2 ..> UC7 : <<include>>
-UC6 ..> UC4 : <<include>>
-UC10 ..> UC4 : <<include>>
+UC2 ..> UC1 : <<include>>
+UC3 ..> UC1 : <<include>>
+UC4 ..> UC1 : <<include>>
+UC5 ..> UC1 : <<include>>
+UC6 ..> UC1 : <<include>>
 @enduml

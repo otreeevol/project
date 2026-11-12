@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}学生信息管理系统{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if session.get('user_id') %}
+<header class="navbar">
+    <div class="brand">🎓 学生信息管理系统</div>
+    <nav>
+        <a href="{{ url_for('dashboard.index') }}" class="{{ 'active' if request.endpoint == 'dashboard.index' }}">首页</a>
+        <a href="{{ url_for('student.index') }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith('student.') }}">学生管理</a>
+        <a href="{{ url_for('class.index') }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith('class.') }}">班级管理</a>
+        <a href="{{ url_for('course.index') }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith('course.') }}">课程管理</a>
+        <a href="{{ url_for('grade.index') }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith('grade.') and not request.endpoint.startswith('grade.statistics') }}">成绩管理</a>
+        <a href="{{ url_for('grade.statistics') }}" class="{{ 'active' if request.endpoint == 'grade.statistics' }}">成绩统计</a>
+    </nav>
+    <div class="user">
+        <span>{{ session.get('username') }}</span>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-sm">退出</a>
+    </div>
+</header>
+{% endif %}
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <p>学生信息管理系统 · 软件工程课程设计 · Flask + SQLite 三层架构</p>
+</footer>
+</body>
+</html>

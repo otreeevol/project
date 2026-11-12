@@ -1,0 +1,23 @@
+@startuml
+' 学生信息管理系统 —— 顺序图：新增学生
+actor "用户" as User
+participant "StudentController" as C
+participant "StudentService" as S
+participant "StudentDao" as D
+database "SQLite\nsms.db" as DB
+
+User -> C : 提交学生表单
+C -> S : add_student(form)
+activate S
+S -> S : 校验学号/姓名非空
+S -> S : 校验学号唯一
+S -> D : create(data)
+activate D
+D -> DB : INSERT INTO student
+DB --> D : 成功
+D --> S : 学生 id
+deactivate D
+S --> C : 成功
+deactivate S
+C --> User : 重定向并提示"学生添加成功"
+@enduml

@@ -1,35 +1,34 @@
 @startuml
-' 小米便签 —— 构件图
+' 学生信息管理系统 —— 构件图
 skinparam componentStyle rectangle
 
 package "表示层" {
-  component "NotesListActivity\n便签列表" as LA
-  component "NoteEditActivity\n便签编辑" as EA
+  component "AuthController\n登录" as AuthC
+  component "StudentController\n学生管理" as StudentC
+  component "GradeController\n成绩管理" as GradeC
 }
 
 package "业务逻辑层" {
-  component "WorkingNote\n编辑工作区" as WN
-  component "Note\n便签实体" as Note
-  component "GTaskManager\n同步管理" as GM
-  component "GTaskClient\nGoogle接口" as GC
+  component "AuthService\n认证服务" as AuthS
+  component "StudentService\n学生服务" as StudentS
+  component "GradeService\n成绩服务" as GradeS
 }
 
 package "数据访问层" {
-  component "NotesProvider\nContentProvider" as NP
-  component "NotesDatabaseHelper\n数据库助手" as DBH
+  component "UserDao\n用户访问" as UserD
+  component "StudentDao\n学生访问" as StudentD
+  component "GradeDao\n成绩访问" as GradeD
 }
 
-database "note.db\n(SQLite)" as DB
-cloud "Google Tasks" as GT
+database "sms.db\n(SQLite)" as DB
 
-LA --> EA : 启动
-EA --> WN : 使用
-WN --> Note : 组合
-WN --> NP : 保存
-LA --> NP : 查询
-GM --> NP : 读写
-GM --> GC : 调用
-GC ..> GT : HTTPS
-NP --> DBH : 调用
-DBH --> DB : 读写
+AuthC --> AuthS
+StudentC --> StudentS
+GradeC --> GradeS
+AuthS --> UserD
+StudentS --> StudentD
+GradeS --> GradeD
+UserD --> DB
+StudentD --> DB
+GradeD --> DB
 @enduml

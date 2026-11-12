@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}课程管理 - 学生信息管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>课程管理</h2>
+    <div class="actions">
+        <form method="get" class="inline-form">
+            <input type="text" name="q" value="{{ keyword }}" placeholder="按课程号/名称搜索">
+            <button type="submit" class="btn">搜索</button>
+        </form>
+        <a href="{{ url_for('course.add') }}" class="btn btn-primary">＋ 新增课程</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>课程编号</th><th>课程名称</th><th>学分</th><th>学时</th><th>任课教师</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+    {% for c in courses %}
+        <tr>
+            <td>{{ c['course_no'] }}</td>
+            <td>{{ c['name'] }}</td>
+            <td>{{ c['credit'] if c['credit'] is not none else '-' }}</td>
+            <td>{{ c['hours'] if c['hours'] is not none else '-' }}</td>
+            <td>{{ c['teacher'] or '-' }}</td>
+            <td class="ops">
+                <a href="{{ url_for('course.edit', course_id=c['id']) }}" class="btn btn-sm">编辑</a>
+                <form method="post" action="{{ url_for('course.delete', course_id=c['id']) }}" class="inline-form"
+                      onsubmit="return confirm('确定删除该课程？');">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="6" class="empty">暂无课程数据</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

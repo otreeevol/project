@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}班级管理 - 学生信息管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>班级管理</h2>
+    <a href="{{ url_for('class.add') }}" class="btn btn-primary">＋ 新增班级</a>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>班级名称</th><th>专业</th><th>年级</th><th>班主任</th><th>学生人数</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+    {% for c in classes %}
+        <tr>
+            <td>{{ c['name'] }}</td>
+            <td>{{ c['major'] or '-' }}</td>
+            <td>{{ c['grade'] or '-' }}</td>
+            <td>{{ c['head_teacher'] or '-' }}</td>
+            <td>{{ c['student_count'] }}</td>
+            <td class="ops">
+                <a href="{{ url_for('class.edit', class_id=c['id']) }}" class="btn btn-sm">编辑</a>
+                <form method="post" action="{{ url_for('class.delete', class_id=c['id']) }}" class="inline-form"
+                      onsubmit="return confirm('确定删除该班级？');">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="6" class="empty">暂无班级数据</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

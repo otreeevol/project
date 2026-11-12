@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}学生管理 - 学生信息管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>学生管理</h2>
+    <div class="actions">
+        <form method="get" class="inline-form">
+            <input type="text" name="q" value="{{ keyword }}" placeholder="按学号/姓名搜索">
+            <button type="submit" class="btn">搜索</button>
+        </form>
+        <a href="{{ url_for('student.add') }}" class="btn btn-primary">＋ 新增学生</a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>学号</th><th>姓名</th><th>性别</th><th>出生日期</th>
+            <th>班级</th><th>电话</th><th>邮箱</th><th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for s in students %}
+        <tr>
+            <td>{{ s['student_no'] }}</td>
+            <td>{{ s['name'] }}</td>
+            <td>{{ s['gender'] or '-' }}</td>
+            <td>{{ s['birth_date'] or '-' }}</td>
+            <td>{{ s['class_name'] or '-' }}</td>
+            <td>{{ s['phone'] or '-' }}</td>
+            <td>{{ s['email'] or '-' }}</td>
+            <td class="ops">
+                <a href="{{ url_for('student.edit', student_id=s['id']) }}" class="btn btn-sm">编辑</a>
+                <form method="post" action="{{ url_for('student.delete', student_id=s['id']) }}" class="inline-form"
+                      onsubmit="return confirm('确定删除该学生？');">
+                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="8" class="empty">暂无学生数据</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
