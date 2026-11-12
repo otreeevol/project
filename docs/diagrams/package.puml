@@ -1,0 +1,31 @@
+@startuml
+' 小米便签 —— 包图
+skinparam packageStyle rectangle
+
+package "net.micode.notes" {
+  package "data\n数据层" as data {
+  }
+  package "model\n模型层" as model {
+  }
+  package "ui\n表示层" as ui {
+  }
+  package "tool\n工具层" as tool {
+  }
+  package "gtask\n云同步" as gtask {
+  }
+  package "widget\n桌面小部件" as widget {
+  }
+}
+
+ui ..> model
+ui ..> tool
+ui ..> gtask
+ui ..> data
+
+model ..> data
+gtask ..> data
+gtask ..> tool
+tool ..> data
+widget ..> model
+widget ..> data
+@enduml

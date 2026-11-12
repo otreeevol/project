@@ -1,0 +1,100 @@
+@startuml
+' 小米便签 —— 详细设计类图
+hide empty members
+
+class Notes <<契约类>> {
+  +AUTHORITY : String
+  +CONTENT_NOTE_URI : Uri
+  +CONTENT_DATA_URI : Uri
+  +TYPE_NOTE : int
+  +TYPE_FOLDER : int
+  +TYPE_SYSTEM : int
+}
+
+class NotesDatabaseHelper {
+  -DB_NAME : String = "note.db"
+  +onCreate(db)
+  +onUpgrade(db, old, new)
+}
+
+class NotesProvider {
+  +query(uri, ...) : Cursor
+  +insert(uri, values) : Uri
+  +update(uri, values, ...) : int
+  +delete(uri, ...) : int
+  +getType(uri) : String
+}
+
+class Contact {
+  +CONTENT_URI : String
+}
+
+class Note {
+  -mNoteId : long
+  -mSnippet : String
+  -mType : int
+  +getId() : long
+  +getSnippet() : String
+  +setSnippet(s)
+  +getType() : int
+}
+
+class WorkingNote {
+  -mNote : Note
+  -mNoteId : long
+  -mContent : String
+  +setWorkingText(text)
+  +saveNote() : boolean
+  +setAlertDate(date, set)
+  +setBgColorId(id)
+}
+
+class NotesListActivity {
+  +onCreate(bundle)
+  +onNewIntent(intent)
+  +onListItemClick(...)
+}
+
+class NoteEditActivity {
+  +onCreate(bundle)
+  +onSave()
+  +setWidgetValue(...)
+}
+
+class NotesListAdapter {
+  +bindView(...)
+  +newView(...)
+}
+
+class GTaskManager {
+  +sync(...)
+}
+
+class GTaskClient {
+  +login()
+  +createTask(...)
+  +upload(...)
+}
+
+class SQLiteOpenHelper
+class ContentProvider
+class Activity
+class CursorAdapter
+
+SQLiteOpenHelper <|-- NotesDatabaseHelper
+ContentProvider <|-- NotesProvider
+Activity <|-- NotesListActivity
+Activity <|-- NoteEditActivity
+CursorAdapter <|-- NotesListAdapter
+
+NotesProvider --> NotesDatabaseHelper : 使用
+NotesProvider --> Notes : 引用常量
+WorkingNote *-- Note : 组合
+WorkingNote --> NotesProvider : 保存
+NoteEditActivity --> WorkingNote : 使用
+NotesListActivity --> NotesProvider : 查询
+NotesListAdapter --> Note : 展示
+GTaskManager --> GTaskClient : 调用
+GTaskManager --> NotesProvider : 读写
+NoteEditActivity ..> Notes : 依赖
+@enduml

@@ -1,0 +1,25 @@
+# 构建产物
+*.class
+*.apk
+build/
+bin/
+gen/
+out/
+.gradle/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+local.properties
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.log
+*.tmp
+
+# PlantUML 构建工具（仅本地渲染用，不入库）
+plantuml*.jar

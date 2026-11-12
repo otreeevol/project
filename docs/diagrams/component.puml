@@ -1,0 +1,35 @@
+@startuml
+' 小米便签 —— 构件图
+skinparam componentStyle rectangle
+
+package "表示层" {
+  component "NotesListActivity\n便签列表" as LA
+  component "NoteEditActivity\n便签编辑" as EA
+}
+
+package "业务逻辑层" {
+  component "WorkingNote\n编辑工作区" as WN
+  component "Note\n便签实体" as Note
+  component "GTaskManager\n同步管理" as GM
+  component "GTaskClient\nGoogle接口" as GC
+}
+
+package "数据访问层" {
+  component "NotesProvider\nContentProvider" as NP
+  component "NotesDatabaseHelper\n数据库助手" as DBH
+}
+
+database "note.db\n(SQLite)" as DB
+cloud "Google Tasks" as GT
+
+LA --> EA : 启动
+EA --> WN : 使用
+WN --> Note : 组合
+WN --> NP : 保存
+LA --> NP : 查询
+GM --> NP : 读写
+GM --> GC : 调用
+GC ..> GT : HTTPS
+NP --> DBH : 调用
+DBH --> DB : 读写
+@enduml
