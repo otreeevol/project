@@ -1,4 +1,5 @@
 @startuml
+skinparam defaultFontName "Microsoft YaHei"
 ' 学生信息管理系统 —— 状态图：学生对象状态转移
 state "已录入" as created
 state "已修改" as modified

@@ -1,4 +1,5 @@
 @startuml
+skinparam defaultFontName "Microsoft YaHei"
 ' 学生信息管理系统 —— 构件图
 skinparam componentStyle rectangle
 

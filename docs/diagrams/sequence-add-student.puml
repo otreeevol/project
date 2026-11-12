@@ -1,4 +1,5 @@
 @startuml
+skinparam defaultFontName "Microsoft YaHei"
 ' 学生信息管理系统 —— 顺序图：新增学生
 actor "用户" as User
 participant "StudentController" as C
